@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite" parallel="none" >
+  
+ <test name="iOS-iPhone">
+ 
+ <parameter name="browser" value="iOS-iPhone" />
+
+ <classes>
+ 
+ <class name="test1.TestNG" />
+ 
+ </classes>
+ 
+ </test>
+
+<test name="ChromeTest">
+
+	<parameter name="browser" value="chrome" />
+			   <groups>
+		  		<run>
+		  				<include name="setConfig" />
+       					<include name="criteria" />
+       					
+       			</run>
+    		</groups>
+		<classes>
+
+			<class name="test1.TestNGConfig"/>
+
+
+		</classes>
+
+</test> 
+  
+<test name="FirefoxTest">
+
+	<parameter name="browser" value="firefox" />
+			   <groups>
+		  		<run>
+		  				<include name="setConfig" />
+       					<include name="criteria" />
+       					
+       			</run>
+    		</groups>
+		
+		<classes>
+		
+		<class name="test1.TestNGConfig" />
+
+	</classes>
+		
+ 
+</test>
+ 
+ 
+
+<test name="SafariTest">
+  
+ <parameter name="browser" value="safari" />
+ 
+ <classes>
+ 
+ <class name="test1.TestNGConfig" />
+ 
+ </classes>
+ 
+  </test>
+
+ 
+
+
+<!--  
+
+
+   <test name="IE10Windows8.1">
+ 
+ <parameter name="browser" value="ie10-windows8.1" />
+ 
+ <classes>
+ 
+ <class name="test1.TestNGConfig" />
+ 
+ </classes>
+ 
+ </test>
+
+ <test name="IE7Win10">
+ 
+ <parameter name="browser" value="ie10-windows7" />
+ 
+ <classes>
+ 
+ <class name="test1.TestNG" />
+ 
+ </classes>
+ 
+ </test>
+
+
+ 
+
+  <test name="IE11Windows7">
+ 
+ <parameter name="browser" value="ie11-windows7" />
+ 
+ <classes>
+ 
+ <class name="test1.TestNG" />
+ 
+ </classes>
+ 
+ </test>
+
+ <test name="FirefoxWin7">
+ 
+ <parameter name="browser" value="firefox-windows7" />
+ 
+ <classes>
+ 
+ <class name="test1.TestNG" />
+ 
+ </classes>
+ 
+ </test>
+
+ <test name="ChromeWin7">
+ 
+ <parameter name="browser" value="chrome-windows7" />
+ 
+ <classes>
+ 
+ <class name="test1.TestNG" />
+ 
+ </classes>
+ 
+ </test>
+ 
+ 
+
+ 
+ 
+ <test name="ChromiumTest">
+ 
+ <parameter name="browser" value="chromium" />
+
+ <classes>
+ 
+ <class name="test1.TestNG" />
+ 
+ </classes>
+ 
+ </test>
+
+
+
+ <test name="Chrome8.1">
+ 
+ <parameter name="browser" value="chrome-windows8.1" />
+ 
+ <classes>
+ 
+ <class name="test1.TestNG" />
+ 
+ </classes>
+ 
+ </test>
+ 
+
+ <test name="FfoxWindows8">
+ 
+ <parameter name="browser" value="firefox-windows8.1" />
+ 
+ <classes>
+ 
+ <class name="test1.TestNG" />
+ 
+ </classes>
+ 
+ </test>
+ 
+
+  <test name="IE11Windows8.1">
+ 
+ <parameter name="browser" value="ie11-windows8.1" />
+ 
+ <classes>
+ 
+ <class name="test1.TestNG" />
+ 
+ </classes>
+ 
+ </test>
+
+ <test name="iOS-iPhone">
+ 
+ <parameter name="browser" value="iOS-iPhone" />
+
+ <classes>
+ 
+ <class name="test1.TestNG" />
+ 
+ </classes>
+ 
+ </test>
+ 
+
+  <test name="iOS-iPad">
+ 
+ <parameter name="browser" value="iOS-iPad" />
+
+ <classes>
+ 
+ <class name="test1.TestNG" />
+ 
+ </classes>
+ 
+ </test>
+
+ 
+ <test name="Firefox8.1">
+ 
+ <parameter name="browser" value="firefox-windows8.1" />
+ 
+ <classes>
+ 
+ <class name="test1.TestNG" />
+ 
+ </classes>
+ 
+ </test>
+  
+ 
+  
+
+ 
+
+  
+
+-->
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <!--  
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+ 
+ 
+ <test name="IE8.1">
+ 
+ <parameter name="browser" value="ie11-windows8.1" />
+ 
+ <classes>
+ 
+ <class name="test1.TestNG" />
+ 
+ </classes>
+ 
+ </test>
+
+
+
+
+
+
+
+
+-->
+
+
+
+ 
+</suite>
