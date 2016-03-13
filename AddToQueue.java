@@ -2,6 +2,7 @@ package test1;
 
 
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -64,21 +65,38 @@ public class AddToQueue extends seleniumTest{
 		
 		
 //		<<< Instantiation of Users  >>>
-	    
+
+		//Constant Users
 	    Users tester = new Users(driver, "Testing Provider");
 	    Users admin = new Users(driver, "Admin");
 	    Users testPatient = new Users(driver, "Testing Patient");
-		Users patientNew = new Users(driver, "Enrique", "Iglesias", newPasswd, "etillson@viimed.com");
-		Users patient = new Users(driver, "Enrique", "Iglesias", "!viimed689#", "etillson@viimed.com");
 		Users providerPartner = new Users(driver, "Provider Partner");
 		Users admin6 = new Users(driver, "Admin6");
 		Users testUser = new Users(driver, "testUser");
 		Users nonUser = new Users(driver, "nonimportantUser");
+		
+		
+		ArrayList<Users> userList = new ArrayList<Users>();
+			userList.add(tester);
+			userList.add(admin);
+			userList.add(testPatient);
+			userList.add(providerPartner);
+			userList.add(admin6);
+			userList.add(testUser);
+			userList.add(nonUser);
+	
+		//Temporary Users
+		Users patientNew = new Users(driver, "Enrique", "Iglesias", newPasswd, "etillson@viimed.com");
+		Users patient = new Users(driver, "Enrique", "Iglesias", "!viimed689#", "etillson@viimed.com");
+		Users nonExisting = new Users(driver, "Enrique", "Iglesias", "!viimed689#", "qatest2@viimed.com");
+		Users eglesias = new Users(driver, "Enrique", "Iglesias", "!viimed689#", "hybkdruonq", "qatest2@viimed.com", "patient");
+		
 		String adminName = admin.getFirstName() + " " + admin.getLastName();
 		
 		
 		System.out.println(patientNew.getUsername());
 		System.out.println(patientNew.getPatientId());
+		System.out.println(userList.size());
 		
 //		<<< Open Gmail for testing emails >>>
 		
@@ -145,7 +163,7 @@ public class AddToQueue extends seleniumTest{
 				//WebElement queue = driver.findElement(By.cssSelector("span[class='label round alert']"));
 				//queue.click();
 				longPause();
-				//String [] filters = {"null", "null", "null", "null", "JHU Nurse Practitioner", "null", "null", "null"};				
+				//String [] filters = {null, null, null, null, "JHU Nurse Practitioner", null, null, null};				
 				//Filters userFilter = new Filters(driver, filters, "users");
 				//shortPause();
 				//openQueue(driver, "jhu np 1");
@@ -177,28 +195,29 @@ public class AddToQueue extends seleniumTest{
 				
 				*//*
 				
-				
-				goTo("Configure", "People", "Users");
-				shortPause();
-				tableVisible();
-				pageTitleVisible("Manage Users");
-				String [] filters = {"null", "null", "null", "null", "admin", "null", "null", "null"};				
-				Filters userFilter = new Filters(driver, filters, "users");
-				shortPause();
-				if(openQueue(admin.getUsername()) == 1){
+				for(int x=0; x < userList.size(); x++){
+					goTo("Configure", "People", "Users");
 					shortPause();
-					tasklistVisible();
-					Tasks clearTasks = new Tasks(driver, true);
+					tableVisible();
+					pageTitleVisible("Manage Users");
+					String [] filters = {userList.get(x).getFirstName(), userList.get(x).getLastName(), null, null, null, null, null, null};				
+					Filters userFilter = new Filters(driver, filters, "users");
 					shortPause();
-					clearTasks.deleteTasksAdmin(driver);
+					if(openQueue(userList.get(x).getUsername()) == 1){
+						shortPause();
+						tasklistVisible();
+						Tasks clearTasks = new Tasks(driver, true);
+						shortPause();
+						clearTasks.deleteTasksAdmin(driver);
+					}
 				}
-				
+				/*
 				goTo("Configure", "People", "Users");	
 				longPause();
 				longPause();
 				tableVisible();
 				pageTitleVisible("Manage Users");
-				String [] filters2 = {"null", "null", "null", "null", "testuser", "null", "null", "null"};		
+				String [] filters2 = {null, null, null, null, "testuser", null, null, null};		
 				Filters userFilter2 = new Filters(driver, filters2, "users");
 				shortPause();
 				if(openQueue(tester.getUsername()) == 1){
@@ -214,7 +233,7 @@ public class AddToQueue extends seleniumTest{
 				longPause();
 				tableVisible();
 				pageTitleVisible("Manage Users");
-				String [] filters3 = {"null", "null", "null", "null", "testuser", "null", "null", "null"};				
+				String [] filters3 = {null, null, null, null, "testuser", null, null, null};				
 				Filters userFilter3 = new Filters(driver, filters3, "users");
 				shortPause();
 				if(openQueue(testPatient.getUsername()) == 1){
@@ -230,7 +249,7 @@ public class AddToQueue extends seleniumTest{
 				longPause();
 				tableVisible();
 				pageTitleVisible("Manage Users");
-				String [] filters5 = {"Enrique", "null", "null", "null", "null", "null", "null", "null"};				
+				String [] filters5 = {"Enrique", null, null, null, null, null, null, null};				
 				Filters userFilter5 = new Filters(driver, filters5, "users");
 				shortPause();
 				if(openQueue(newUsername) == 1){
@@ -240,10 +259,10 @@ public class AddToQueue extends seleniumTest{
 					shortPause();
 					clearTasks3.deleteTasksAdmin(driver);
 				}
+				*/
 				
 				
-				
-				logout();
+			
 				
 				/*login(driver, tester.getUsername(), tester.getPasswd());
 				openTasklist();
@@ -263,6 +282,7 @@ public class AddToQueue extends seleniumTest{
 				clearTasks2.deleteTasks(driver);
 				logoutPatient(driver);
 				*//*
+				logout();
 				}
 				catch(Exception e){
 					logout();
@@ -426,7 +446,7 @@ public class AddToQueue extends seleniumTest{
  * 		Add to Queue 3
  * 		9c Add User Later
  * 
- *********************************************/
+ *********************************************
 				
 		test = "9c Add User Later";
 		
@@ -436,7 +456,7 @@ public class AddToQueue extends seleniumTest{
 			dashboardVisible();
 			//this is to test PW field
 
-	
+	/*
 			WebElement password = driver.findElement(By.cssSelector("password-field input[type='password']"));
 			password.sendKeys("!viimed689#");
 			//WebElement confirmPasswd = driverEmail.findElement(By.name("confirm"));
@@ -444,7 +464,7 @@ public class AddToQueue extends seleniumTest{
 			
 			confirmPasswd.sendKeys("!viimed689#");
 			
-			
+		*/	/*
 			
 			goToQa();
 	
@@ -561,7 +581,7 @@ public class AddToQueue extends seleniumTest{
  * 		Add to Queue 3.1
  * 		Add Permission
  * 
- **********************************************/
+ **********************************************
 	
 		test = "Add Permission";
 		
@@ -576,13 +596,15 @@ public class AddToQueue extends seleniumTest{
 		longPause();
 		console.setInput(driver, patientNew.username);
 
-		
-		console.clickSearch(driver);
+		//Not necessary with new search bar
+		//console.clickSearch(driver);
 		longPause();
 		if(console.countUsersPage(driver)==0){
-			console.filterOption(driver, "Status");
+			/*console.filterOption(driver, "Status");
 			shortPause();
 			console.filterSub(driver, "Closed");
+			*//*
+			console.setFilter("Completed");
 			longPause();
 		}
 		System.out.println(console.countUsersPage(driver));
@@ -613,12 +635,14 @@ public class AddToQueue extends seleniumTest{
 			longPause();
 
 			console.setInput(driver, patientNew.username);
-			console.clickSearch(driver);
+			//console.clickSearch(driver);
 			longPause();
 			if(console.countUsersPage(driver)==0){
-				console.filterOption(driver,"Status");
+				/*console.filterOption(driver,"Status");
 				shortPause();
 				console.filterSub(driver, "Closed");
+				*//*
+				console.setFilter("Completed");
 				longPause();
 			}	
 			if(console.countUsersPage(driver) > 0){
@@ -649,7 +673,7 @@ public class AddToQueue extends seleniumTest{
  * 		Add to Queue 3.1
  * 		Auto Initiate Form
  * 
- **********************************************/
+ **********************************************
 	
 	test = "Auto Initiate Form";
 	
@@ -771,7 +795,7 @@ public class AddToQueue extends seleniumTest{
  * 		Add to Queue 8
  * 		Badge Testing
  * 
- **********************************************/
+ **********************************************
 		
 		test = "Badge Testing";
 		
@@ -808,14 +832,14 @@ public class AddToQueue extends seleniumTest{
  * 		Forgot Password
  * 		
  * 
- ***********************************************/
+ ***********************************************
 				
 		test = "Forgot Password";
 		String usernameTest = "hybkdruonq";  // for testing only
 		
 		
 		try{
-			String usernameIncorrect = id.randomUsername();
+			
 		
 			String verificationCode;
 	
@@ -830,7 +854,7 @@ public class AddToQueue extends seleniumTest{
 			else
 			driver.navigate().refresh();
 			
-			login(driver, usernameIncorrect, newPasswd);
+			login(nonExisting);
 			longPause();
 			if(alertExists(driver, "Your username or password was not found."))
 				System.out.println("Alert present");
@@ -839,35 +863,37 @@ public class AddToQueue extends seleniumTest{
 				forgotPassword = false;
 			}
 			WebElement passwdForget = (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated
-					(By.xpath("//a[contains(text(), 'Did you forget your password?')]")));
+					(By.xpath("//button[contains(., 'I forgot my password!')]")));
 			passwdForget.click();
 			//setFieldByName(driver, "username", newUsername);
 			if(mobile)
 				longPause();
-			setFieldByName(driver, "username", usernameTest);
-			submitButton();
+			shortPause();
+			setInputByAttribute("placeholder", "Username", usernameTest);
+			clickButton("Retrieve Password");
 			minutePause();
-			longPause();
 			gmail.refreshEmail();
 			longPause();
 			gmail.openEmail("Reset Password", "zzzzzzz");
 			verificationCode = gmail.getVerificationCode();
 			gmail.backButton();
-			setFieldByName(driver, "code", verificationCode);
-			submitButton();
+			//setFieldByName(driver, "code", verificationCode);
+			setInputByAttribute("placeholder", "Verification Code", verificationCode);
+			clickButton("Verify my code");
 			shortPause();
-			setField(driver, "password-set", newPasswd);
-			setField(driver, "password-set-confirm", newPasswd);
-			submitButton();
+			//setField(driver, "password-set", newPasswd);
+			//setField(driver, "password-set-confirm", newPasswd);
+			setInputByAttribute("placeholder", "Password", newPasswd);
+			setInputByAttribute("placeholder", "Type Password, Again", newPasswd);
+			clickButton("Reset my Password");
 			shortPause();
 			//setFieldByName(driver, "username", newUsername);
-			setFieldByName(driver, "username", usernameTest);
-			setFieldByName(driver, "password", newPasswd);
-			submitButton();
+			login(eglesias);
+		
 			longPause();
 			dashboardVisible();
 			System.out.println(driver.getCurrentUrl());
-			if(driver.getCurrentUrl().equals("https://qa3.viinetwork.net/dashboard") && forgotPassword!=false)
+			if(driver.getCurrentUrl().contains("dashboard") && forgotPassword!=false)
 				printResult(test, data, "passed");
 				else{
 					printResult(test, data, "failed");
@@ -879,10 +905,11 @@ public class AddToQueue extends seleniumTest{
 
 		}
 		catch(Exception e){
+			e.printStackTrace();
 			printResult(test, data, "failed");
 			forgotPassword = false;
 			logout();
-			e.printStackTrace();
+
 
 		}			
 
@@ -891,7 +918,7 @@ public class AddToQueue extends seleniumTest{
  * 		Add to Queue 5
  * 		17 Send Email as User
  * 
- ***********************************************/
+ ***********************************************
 				
 				//This test only works if Add User Later and Forgot Password tests pass
 				
@@ -975,7 +1002,7 @@ public class AddToQueue extends seleniumTest{
  * 		Add to Queue 6
  * 		18 Delete User
  * 
- ***********************************************/
+ ***********************************************
 		test = "18 Delete User";
 		
 		//  You must first perform 9c Add User Later test in order to create the user
@@ -1338,7 +1365,7 @@ public class AddToQueue extends seleniumTest{
  * 		Add to Queue 10
  * 		Queue_DeriveDestinationQueue
  * 
- ***********************************************/
+ ***********************************************
  	
 		test = "10 DeriveDestinationQueue";
 		
@@ -1360,7 +1387,7 @@ public class AddToQueue extends seleniumTest{
 		choice2 = 1;
 		fieldNum = getFieldNum(driver, field);
 		getSelect(driver, fieldNum, choice2);
-		*/
+		*//*
 				
 				
 				
@@ -1396,7 +1423,7 @@ public class AddToQueue extends seleniumTest{
  * 		Add to Queue 10b
  * 		Queue_AddToQueue_DDQ_By_Action
  *
- ***********************************************/
+ ***********************************************
  
  
 		test = "10b_AddToQueue_DDQ_By_Action";
@@ -1420,9 +1447,10 @@ public class AddToQueue extends seleniumTest{
 		choice2 = 1;
 		fieldNum = getFieldNum(driver, field);
 		getSelect(driver, fieldNum, choice2);
-		*/
+		*//*
 		
 		submit();
+		shortPause();
 		//logout(driver, patient.firstName);
 		logout();
 		shortPause();
@@ -1478,7 +1506,7 @@ public class AddToQueue extends seleniumTest{
  * 		Add to Queue 11
  * 		AddToQueue_Timers
  *
- **********************************************/
+ **********************************************
 		
 		test = "Timers";
 		
@@ -1560,9 +1588,10 @@ public class AddToQueue extends seleniumTest{
 		
 		}
 		catch(Exception e){
+			e.printStackTrace();
 			printResult(test, data, "failed");
 			logout();
-			e.printStackTrace();
+
 		}
 		
 		
@@ -1591,11 +1620,12 @@ public class AddToQueue extends seleniumTest{
 		try{
 			
 			longPause();
-			WebElement reminder = (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated
-					(By.cssSelector("div.alert.alert-info strong")));
+			//reminders are no longer supported
+			//WebElement reminder = (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated
+				//	(By.cssSelector("div.alert.alert-info strong")));
 			longPause();
-			if(gmail.checkSubject("The rule worked!") && reminder.getText().contains("Rule Test")){			
-				reminder.click();
+			if(gmail.checkSubject("The rule worked!")){			
+				//reminder.click();
 			
 				shortPause();
 				Tasks rules = new Tasks(driver, "Rule_when(status:pending->late)sendemail_when(priority:low->high)sendreminder", true);

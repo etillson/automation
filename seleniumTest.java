@@ -82,7 +82,7 @@ public seleniumTest(WebDriver currentDriver, boolean isSafari, boolean isIE, boo
 //************    Alerts    **************
 
 
-//This checks the text in alert boxes by sending an array of strings of the desired text
+/** @return This checks the text in alert boxes by sending an array of strings of the desired text */
 public static boolean containsText(String[] values){
 	boolean textFound = false;
 
@@ -105,7 +105,11 @@ public static boolean containsText(String[] values){
 	return textFound;
 }
 
+
+/** @return  Checks to see if an alert containing the desired text exists on the screen  */
 public boolean alertPresent(WebDriver driver, String alert){
+	
+	try{ 
 	WebElement element = (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated
 			(By.cssSelector("div[ng-class*='ngNotify.notifyClass']")));
 	//WebElement element = (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated
@@ -113,9 +117,16 @@ public boolean alertPresent(WebDriver driver, String alert){
 	if (element.getText().contains(alert))
 		return true;
 	return false;
+		}
+	catch (Exception e) {
+	System.out.println("Desired alert does not exist");
+	return false;
+	}
 }
 
-//This checks to see if any alerts exist on the screen
+
+
+/*
 public static boolean alertExists(WebDriver driver, String alertText){
 	try{
 	WebElement element = driver.findElement(By.cssSelector("div[ng-class*='ngNotify.notifyClass']"));
@@ -126,12 +137,12 @@ public static boolean alertExists(WebDriver driver, String alertText){
 		return false;
 	}
 	catch (Exception e) {
-		System.out.println("Alert box does not exist");
+		System.out.println("Desired alert does not exist");
 		return false;
 	}
 	
 }
-
+*/
 
 //Checks to make sure all values of a string array are found in alerts
 //This is passed the driver paremeter due to its use by the email webdriver
@@ -434,7 +445,7 @@ public static void clickButton(WebDriver driver, String name){
 
 //Generic button clicking method.  Clicks a button containing the name.
 public static void clickButton(String text){
-	WebElement submit = driver.findElement(By.xpath("//button[contains(text(), '"+ text + "')]"));
+	WebElement submit = driver.findElement(By.xpath("//button[contains(., '"+ text + "')]"));
 	submit.click();	
 }
 
@@ -480,7 +491,22 @@ public static void resizeWindow(WebDriver driver){
 	driver.manage().window().setSize(new Dimension(1920, 1080));
 }
 
-//waits for a table to be visible
+
+
+/********************************************************
+ *
+ *      Waiting
+ *		
+ *      This group of methods are to determine
+ *		the users location in the app based on
+ *		a particular element's visiblity
+ * 
+ *      
+ * 
+ * 
+ ********************************************************/
+
+//waits for a table to be visible by waiting for the checkbox elements to appear
 public static void tableVisible(){
 	try{
 		shortPause();
@@ -492,6 +518,7 @@ public static void tableVisible(){
 	}
 }
 
+//waits for the initial terms and conditions page to load
 public static void termsConditionsVisible(WebDriver driver){
 	try{
 	WebElement page = (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated
@@ -514,11 +541,11 @@ public void formVisible(WebDriver driver){
 	}
 }
 
-//Checks to see if a task list has loaded
+//Checks to see if a task list has loaded by waiting for the first task row to load
 public static void tasklistVisible(){
 	try{
 	shortPause();
-	WebElement tasklist = driver.findElement(By.cssSelector("div[class='route-wrapper]"));
+	WebElement tasklist = driver.findElement(By.cssSelector("div[data-layout='activities']"));
 	if(!tasklist.getText().contains("No Results")){
 	WebElement tasks = (new WebDriverWait(driver, 5)).until(ExpectedConditions.visibilityOfElementLocated
 			(By.cssSelector("div.event-block.task")));
@@ -529,19 +556,19 @@ public static void tasklistVisible(){
 	}
 }
 
-//waits for a form to be visible
+//waits for a page to be visible
 public void pageVisible(WebDriver driver){
 	try{
 		shortPause();
 	WebElement form = (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated
-			(By.cssSelector("div.row")));
+			(By.cssSelector("div.container")));
 	}
 	catch(Exception e){
 		System.out.println("Page not loaded");
 	}
 }
 
-//waits for a form to be visible
+//waits for a page to be visible by waiting for the page title to load
 public void pageTitleVisible(String title){
 	try{
 		shortPause();
@@ -652,7 +679,15 @@ public boolean findUserAdminPage(WebDriver driver, String username){
 }
 
 
-//************    Site Menu Navigation   **************
+/********************************************************
+*
+*      Site Menu Navigation
+*		
+*     
+* 
+* 
+* 
+********************************************************/
 
 
 
@@ -823,6 +858,8 @@ public static void goTo(String head, String cat){
 	}
 }
 
+//This was used for the old nav menu since the menus expanded on a hover event
+/*
 public static void hoverOver(WebDriver driver, String head, String cat){
 	WebElement element1 = (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(), '" + head + "')]")));
 	WebElement element2 = driver.findElement(By.xpath("//a[contains(text(), '" + cat + "')]"));
@@ -841,6 +878,7 @@ public static void hoverOver(WebDriver driver, String head, String cat){
 	}
 }
 
+//This was used for the old nav menu since the menus expanded on a hover event
 public static void hoverOver(WebDriver driver, String head){
 
 	
@@ -860,6 +898,7 @@ public static void hoverOver(WebDriver driver, String head){
 	}
 }
 
+
 public static void hoverOver(WebDriver driver, WebElement element1){
 
 	
@@ -874,7 +913,7 @@ public static void hoverOver(WebDriver driver, WebElement element1){
 		.perform();
 	}
 }
-
+*/
 public static void goToDashboard(WebDriver driver, String name){
 	//if (name.startsWith("admin") || name.startsWith("Admin"))
 		//name = "admin";
@@ -1073,7 +1112,7 @@ public void logout(){
 		shortPause();
 		WebElement nav2 = (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated
 				(By.cssSelector("vii-primary-nav section[data-nav='dig']")));
-		nav2.findElement(By.xpath("//span[contains(., 'Logout')]/..")).click();
+		nav2.findElement(By.xpath(".//span[contains(., 'Logout')]/..")).click();
 	}
 
 	}
@@ -1234,7 +1273,12 @@ public static void loginPatient(WebDriver driver){
 	submit.click();	
 }
 
-
+public void setInputByAttribute (String attribute, String name, String value){
+	
+	WebElement input = (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated
+					(By.cssSelector("input["+attribute+"='"+name+"']")));
+	input.sendKeys(value);
+}
 /*Opens the tasklist of the logged in user from the dashboard
 public static void openTasklist(WebDriver driver){
 	try{
@@ -2486,7 +2530,9 @@ public static WebElement clickable(WebElement we, int time){
 	return element;
 }
 
-
+public String varReturn(){
+	return "hello";
+}
 
 
 }

@@ -26,7 +26,7 @@ public class Filters extends seleniumTest{
 		if (type.equalsIgnoreCase("users")){
 		for(int x = 0; x < filters.length; x++){
 			System.out.println(x);
-			if (filters[x] != "null"){
+			if (filters[x] != null){
 				if (x==0){
 					WebElement field = getFieldText("input#fname");
 					setFieldText(field, filters[x]);
@@ -241,6 +241,7 @@ public class Filters extends seleniumTest{
 		}
 	
 	public void applyFilters(){
+		(new WebDriverWait(driver, 10)).until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div[ng-class='ngNotify.notifyClass']")));
 		WebElement applyFilter = (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated
 				(By.cssSelector("button-field[button-text='Apply Filters'] button")));
 		//WebElement applyFilter = (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated

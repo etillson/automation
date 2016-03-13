@@ -23,6 +23,7 @@ public class Tasks extends seleniumTest{
 	String statusColor;
 	String statusName;
 	String currentPriority;
+	String urlTasklist;
 	List<WebElement> currentTasks = new ArrayList<WebElement>();
 	List<WebElement> tasklists = new ArrayList<WebElement>();
 	
@@ -44,6 +45,8 @@ public Tasks(WebDriver driver, boolean open){
 
 	
 	setCurrentTasks(list);
+	urlTasklist = driver.getCurrentUrl();
+	System.out.println(urlTasklist);
 	}
 	catch(Exception e){
 		System.out.println("User has no tasks");
@@ -399,12 +402,14 @@ public void deleteTasksAdmin(WebDriver driver){
 		updateTaskCancelled(driver);
 		shortPause();
 		alertPresent(driver, "The task was successfully updated");
-		backButton(driver);
+		//backButton(driver);
+		driver.get(urlTasklist);
+		shortPause();
 		count--;
 		
 		}
 	if(count==0){
-		driver.get(baseURL + "tasklist" );
+		driver.get(urlTasklist);
 		shortPause();
 		deleteTasksAdmin(driver);
 	}

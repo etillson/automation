@@ -13,6 +13,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class SmokeTest extends seleniumTest{
 
@@ -20,21 +22,22 @@ public class SmokeTest extends seleniumTest{
 	String test; 
 	public WebDriver driver;
 	
-	List <String> visitedLinks = new ArrayList<String>(); 
-	String url2;
-	String field;
-	String fieldNum;
-	String perm = "You don't have permission to access this content.";
-	String link;
-	String name;
+	private List <String> visitedLinks = new ArrayList<String>(); 
+	private String url2;
+	private String field;
+	private String fieldNum;
+	private String perm = "You don't have permission to access this content.";
+	private String link;
+	private String name;
     //Date object
     CalendarDate now = new CalendarDate();
     
 
-    
+//No-Argument constructor
+    public SmokeTest(){};
 	
 //Constructor in which the tests run
-	
+    
 public SmokeTest(WebDriver driverCurrent, WriteToFile data){
     
 	driver = driverCurrent;
@@ -87,6 +90,10 @@ public SmokeTest(WebDriver driverCurrent, WriteToFile data){
 
 	
 	longPause();
+	
+	LinkSets dashboard = new LinkSets(driver);
+	dashboard.setPageLinks();
+	
 	List <WebElement> links = driver.findElements(By.cssSelector("a"));
 	System.out.println(links.size());
 	for(int x =0; x < links.size(); x++){
@@ -101,13 +108,27 @@ public SmokeTest(WebDriver driverCurrent, WriteToFile data){
 		e.printStackTrace();
 	}
 	
-
-	clickAllLinks(admin, html, true, getMenuSize());
+    
+	//clickAllLinks(admin, html, true, getMenuSize());
 
 	
 }
 
+public void clickAllLinks(Users user, WriteToFile html, boolean firstLevel, int menuSize){
+	WebElement nav = (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated
+			(By.cssSelector("vii-primary-nav")));
+}
 
+public WebElement setParentElement(String selector){
+	WebElement parent = (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated
+			(By.cssSelector(selector)));
+	return parent;
+}
+
+
+
+
+/*
 public void clickAllLinks(Users user, WriteToFile html, boolean firstLevel, int menuSize){
 	
 	try{
@@ -230,6 +251,7 @@ public void clickAllLinks(Users user, WriteToFile html, boolean firstLevel, int 
 		e.printStackTrace();
 	}
 }
+*/
 
 /** @return true if the parent of element contains a dropdown menu*/
 public boolean parentHasDropdown(WebElement element){
@@ -287,6 +309,24 @@ public void scrollTo(int y){
 }
 
 
+public boolean navHeaderCheck(String href){
+	if (href.contentEquals("#"))
+		return true;
+	else return false;
+}
+
+public String modifyNavHeader(String href, WebElement element){
+	if(navHeaderCheck(href)){
+		href = href + element.getText();
+	}
+	return href;
+}
+
+/** @return adds a link to the list that stores all of the visited links*/
+public void addVisitedLink(String href){
+	if (!linkVisited(href))
+		visitedLinks.add(href);
+}
 
 /** @return checks href against against the list containing previously visited links, if contained returns true, else false */
 public boolean linkVisited(String href){
@@ -303,6 +343,9 @@ public boolean linkVisited(String href){
 }
 
 /** @return number of links that make up the primary and secondary nav */
+/*
+ *     New Menu doesn't use hover events
+ * 
 public int getMenuSize(){
 	List <WebElement> links = driver.findElements(By.cssSelector("a"));
 	int y = 0;
@@ -324,6 +367,7 @@ public int getMenuSize(){
 	}
 	return y;	
 }
+*/
 
 /** @return parsed string not containing numbers in order to prevent multiple screenshots of similar content */
 public String linkFilter(String link){

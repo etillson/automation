@@ -54,6 +54,16 @@ public Users(WebDriver driver, String firstName, String lastName, String passwd,
 	setRole(driver, role);
 }
 
+public Users(WebDriver driver, String firstName, String lastName, String passwd, String username, String email, String role){
+	setFirstName(driver, firstName);
+	setLastName(driver, lastName);
+	setUserName(driver, username);
+	setPasswd(driver, passwd);
+	setEmail(driver, email);	
+	setPatientId(driver);
+	setRole(driver, role);
+}
+
 
 // Used to objects for permanent users
 public Users(WebDriver driver, String user){

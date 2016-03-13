@@ -105,7 +105,7 @@ public class email extends seleniumTest{
 	
 	public String getVerificationCode(){
 		WebElement element = (new WebDriverWait(driverEmail, 10)).until(ExpectedConditions.visibilityOfElementLocated
-				(By.xpath("//span[contains(text(), 'Verification Code')]/following::strong")));
+				(By.xpath("//p[contains(text(), 'Verification Code')]//strong")));
 		System.out.println(element.getText());
 		return element.getText();	
 	}
@@ -126,7 +126,7 @@ public class email extends seleniumTest{
 			if(activate.get(i).getText().contains("Activate My Account")){
 		        if(driverEmail.getWindowHandles().size()>1)	         		
 					break;
-				activate.get(i).click();
+				activate.get(i).findElement(By.xpath(".//a[contains(., 'Activate My Account')]")).click();
 				longPause();
 				System.out.println(driverEmail.getWindowHandle());
 
@@ -181,9 +181,11 @@ public class email extends seleniumTest{
 	
 	public boolean newPassword(String user, String newPasswd){
 		//WebElement password = driverEmail.findElement(By.name("password"));
-		WebElement password = driverEmail.findElement(By.cssSelector("input[type='password']"));
+		//WebElement password = driverEmail.findElement(By.cssSelector("input[type='password']"));
 		//WebElement confirmPasswd = driverEmail.findElement(By.name("confirm"));
-		WebElement confirmPasswd = driver.findElement(By.cssSelector("input[placeholder='Type password again']"));
+		WebElement password = driverEmail.findElement(By.cssSelector("input#password-set"));
+		WebElement confirmPasswd = driverEmail.findElement(By.cssSelector("input#password-set-confirm"));
+		//WebElement confirmPasswd = driver.findElement(By.cssSelector("input[placeholder='Type password again']"));
 		password.sendKeys("!viimed689#");
 		confirmPasswd.sendKeys("!viimed689#");
 		WebElement setPasswd = driverEmail.findElement(By.xpath("//button[contains(text(), 'Set Password')]"));
